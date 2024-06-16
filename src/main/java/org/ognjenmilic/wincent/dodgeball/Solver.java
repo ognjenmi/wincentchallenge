@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Solver {
-    private ArrayList<Position> positions;
+    private final ArrayList<Position> positions;
 
-    private HashMap<Line, ArrayList<Position>> lineMap = new HashMap<>();
+    private final HashMap<Line, ArrayList<Position>> lineMap = new HashMap<>();
 
 
     public Solver(ArrayList<Position> positions) {
@@ -85,11 +85,7 @@ public class Solver {
     }
 
     private void addLineToMap(Position position, Line lineNE) {
-        ArrayList<Position> linePositions = lineMap.get(lineNE);
-        if (linePositions == null) {
-            linePositions = new ArrayList<>();
-            lineMap.put(lineNE, linePositions);
-        }
+        ArrayList<Position> linePositions = lineMap.computeIfAbsent(lineNE, k -> new ArrayList<>());
         linePositions.add(position);
     }
 }

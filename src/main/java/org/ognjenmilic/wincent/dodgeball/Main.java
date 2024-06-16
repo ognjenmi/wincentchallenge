@@ -9,8 +9,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        ArrayList<String> in = new ArrayList<String>();
-        FileInputStream fileInputStream = new FileInputStream(new File("inp.txt"));
+        FileInputStream fileInputStream = new FileInputStream("inp.txt");
         Scanner s = new Scanner(fileInputStream);
 
         if (!s.hasNextLine()) {
@@ -21,7 +20,7 @@ public class Main {
         ArrayList<Result> results = new ArrayList<>(testCases);
         for (int i = 0; i < testCases; i++) {
             int numberOfPLayers = Integer.parseInt(s.nextLine().trim());
-            ArrayList<Position> positions = new ArrayList<>(new ArrayList<Position>());
+            ArrayList<Position> positions = new ArrayList<>(new ArrayList<>());
             for (int j = 0; j < numberOfPLayers; j++) {
                 String[] coordinates = s.nextLine().trim().split(" ");
                 if (coordinates.length != 2) {
@@ -41,7 +40,7 @@ public class Main {
         FileWriter myWriter = new FileWriter("out.txt");
 
         for (Result result : results) {
-            myWriter.append(result.hits() + " " + (result.lastPlayer() + 1) + System.lineSeparator());
+            myWriter.append(String.valueOf(result.hits())).append(" ").append(String.valueOf(result.lastPlayer() + 1)).append(System.lineSeparator());
         }
         myWriter.close();
     }
