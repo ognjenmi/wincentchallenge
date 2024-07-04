@@ -37,49 +37,42 @@ public class Solver {
 
         int hits = 0;
         int nextPlayerIndex = playerIndex;
-
         SideVector direction = initialDirection.next();
         HashSet<Integer> removed = new HashSet<>(positions.size());
         removed.add(playerIndex);
         Position closestPlayer = null;
+        int rounds = 0;
         do {
-            System.out.println("Current player: " + currentPlayer);
             Line line = new Line(direction.coefficient, direction.getN.apply(currentPlayer));
             ArrayList<Position> positionsInLine = lineMap.get(line);
 
             for (Position nextPlayer : positionsInLine) {
-                System.out.println("Position: " + nextPlayer);
                 if (removed.contains(nextPlayer.index())) {
-                    System.out.println("Removed");
                     continue;
                 }
 
                 if (direction.sign == currentPlayer.direction(nextPlayer)) {
-                    System.out.println("Current player: " + currentPlayer + " next player " + nextPlayer + " direction " + direction);
                     if (closestPlayer == null || currentPlayer.distance(nextPlayer) < currentPlayer.distance(closestPlayer)) {
-                        System.out.println("Closest player: " + nextPlayer);
                         closestPlayer = nextPlayer;
                         nextPlayerIndex = nextPlayer.index();
                     }
                 }
             }
             if (closestPlayer == null) {
-                System.out.println("No closest player in direction " + direction);
+                rounds++;
                 direction = direction.next();
-                System.out.println("Next direction " + direction);
                 continue;
             }
 
             hits++;
-            System.out.println("Hits " + hits);
+            rounds = 0;
             initialDirection = direction.opposite();
-            System.out.println("Next player direction " + initialDirection);
+            System.out.println("Player: " + nextPlayerIndex + ", direction: " + direction );
             removed.add(nextPlayerIndex);
             direction = initialDirection.next();
-            System.out.println("Next player starts from " + direction);
             currentPlayer = closestPlayer;
             closestPlayer = null;
-        } while (direction != initialDirection);
+        } while (rounds < 8);
 
         return new Result(hits, nextPlayerIndex);
     }

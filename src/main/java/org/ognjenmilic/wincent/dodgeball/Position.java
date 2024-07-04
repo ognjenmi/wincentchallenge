@@ -10,8 +10,8 @@ public record Position(int index, long x, long y) {
         return p.y - y;
     }
 
-    public long distance(Position p) {
-        return Math.abs(deltaX(p)) + Math.abs(deltaY(p));
+    public double distance(Position p) {
+        return Math.sqrt(deltaX(p) * deltaX(p) + deltaY(p) * deltaY(p));
     }
 
     public int direction(Position p) {
